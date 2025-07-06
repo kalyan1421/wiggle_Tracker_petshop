@@ -1,0 +1,129 @@
+/* Features Bar Styles */
+.features-bar {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 3rem 0;
+  margin: 2rem 0;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  cursor: pointer;
+}
+
+.feature-item:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, var(--primary-teal) 0%, #009a9a 100%);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 168, 168, 0.3);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(0, 168, 168, 0.4);
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.feature-description {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+  .features-bar {
+    padding: 2rem 0;
+  }
+  
+  .feature-item {
+    padding: 1.5rem 1rem;
+  }
+  
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+  
+  .feature-title {
+    font-size: 0.9rem;
+  }
+  
+  .feature-description {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .features-bar {
+    padding: 1.5rem 0;
+    margin: 1rem 0;
+  }
+  
+  .feature-item {
+    padding: 1rem 0.5rem;
+  }
+  
+  .feature-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .feature-title {
+    font-size: 0.85rem;
+  }
+  
+  .feature-description {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .feature-item {
+    padding: 1rem 0.75rem;
+  }
+  
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .feature-title {
+    font-size: 0.8rem;
+  }
+  
+  .feature-description {
+    font-size: 0.7rem;
+  }
+} 

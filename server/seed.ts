@@ -1,5 +1,5 @@
-import { db } from './db';
-import { categories, products } from '@shared/schema';
+import { db } from './db.js';
+import { categories, products } from '@shared/schema.js';
 
 async function seedDatabase() {
   console.log('Starting database seeding...');

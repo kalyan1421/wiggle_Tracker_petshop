@@ -25,7 +25,7 @@ import {
   type BlogPost,
   type InsertBlogPost,
 } from "@shared/schema";
-import { db } from "./db";
+import { db } from "./db.js";
 import { eq, desc, asc, and, ilike, count, sql } from "drizzle-orm";
 
 export interface IStorage {

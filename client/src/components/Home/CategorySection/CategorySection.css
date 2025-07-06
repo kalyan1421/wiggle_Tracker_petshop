@@ -1,0 +1,248 @@
+/* Category Section Styles */
+.category-section {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.section-header {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.paw-decoration {
+  position: absolute;
+  top: -10px;
+  right: -30px;
+  font-size: 1.5rem;
+  opacity: 0.7;
+}
+
+/* Categories Carousel */
+.categories-carousel {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem 0;
+}
+
+.categories-scroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-teal) transparent;
+}
+
+.categories-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.categories-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb {
+  background: var(--primary-teal);
+  border-radius: 3px;
+}
+
+.categories-scroll::-webkit-scrollbar-thumb:hover {
+  background: #009a9a;
+}
+
+/* Category Card */
+.category-card {
+  flex: 0 0 auto;
+  width: 180px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.category-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+.category-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 3px solid var(--primary-teal);
+  box-shadow: 0 5px 15px rgba(0, 168, 168, 0.2);
+  transition: all 0.3s ease;
+}
+
+.category-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-image {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 168, 168, 0.3);
+}
+
+.category-card:hover .category-image img {
+  transform: scale(1.1);
+}
+
+.category-info {
+  padding-top: 0.5rem;
+}
+
+.category-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.category-count {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+  .category-section {
+    padding: 3rem 0;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .category-card {
+    width: 150px;
+    padding: 1rem;
+  }
+  
+  .category-image {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .category-name {
+    font-size: 1rem;
+  }
+  
+  .category-count {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .category-section {
+    padding: 2rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .section-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .paw-decoration {
+    font-size: 1.2rem;
+    right: -25px;
+  }
+  
+  .categories-scroll {
+    gap: 1rem;
+  }
+  
+  .category-card {
+    width: 130px;
+    padding: 0.8rem;
+  }
+  
+  .category-image {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 0.8rem;
+  }
+  
+  .category-name {
+    font-size: 0.9rem;
+  }
+  
+  .category-count {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .category-section {
+    padding: 1.5rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .paw-decoration {
+    font-size: 1rem;
+    right: -20px;
+  }
+  
+  .categories-scroll {
+    gap: 0.8rem;
+  }
+  
+  .category-card {
+    width: 110px;
+    padding: 0.6rem;
+  }
+  
+  .category-image {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.6rem;
+  }
+  
+  .category-name {
+    font-size: 0.8rem;
+  }
+  
+  .category-count {
+    font-size: 0.7rem;
+  }
+} 
