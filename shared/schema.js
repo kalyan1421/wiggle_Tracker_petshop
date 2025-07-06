@@ -1,127 +1,133 @@
 import {
-  sqliteTable,
+  pgTable,
   text,
-  integer,
-  real,
-  blob,
+  varchar,
+  timestamp,
+  jsonb,
   index,
-} from "drizzle-orm/sqlite-core";
+  integer,
+  decimal,
+  boolean,
+  serial,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
 // Session storage table (required for Replit Auth)
-export const sessions = sqliteTable(
+export const sessions = pgTable(
   "sessions",
   {
-    sid: text("sid").primaryKey(),
-    sess: text("sess").notNull(), // JSON as text
-    expire: integer("expire").notNull(), // timestamp as integer
+    sid: varchar("sid").primaryKey(),
+    sess: jsonb("sess").notNull(),
+    expire: timestamp("expire").notNull(),
   },
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
 // User storage table (required for Replit Auth)
-export const users = sqliteTable("users", {
-  id: text("id").primaryKey().notNull(),
-  email: text("email").unique(),
-  firstName: text("first_name"),
-  lastName: text("last_name"),
-  profileImageUrl: text("profile_image_url"),
-  createdAt: integer("created_at"), // timestamp as integer
-  updatedAt: integer("updated_at"), // timestamp as integer
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey().notNull(),
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  profileImageUrl: varchar("profile_image_url"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Categories table
-export const categories = sqliteTable("categories", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
   description: text("description"),
-  imageUrl: text("image_url"),
-  createdAt: integer("created_at"), // timestamp as integer
+  imageUrl: varchar("image_url"),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 // Products table
-export const products = sqliteTable("products", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  slug: varchar("slug", { length: 200 }).notNull().unique(),
   description: text("description"),
-  price: real("price").notNull(),
-  originalPrice: real("original_price"),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  originalPrice: decimal("original_price", { precision: 10, scale: 2 }),
   categoryId: integer("category_id").references(() => categories.id),
-  imageUrl: text("image_url"),
-  images: text("images"), // JSON as text
+  imageUrl: varchar("image_url"),
+  images: jsonb("images"),
   stock: integer("stock").default(0),
-  isActive: integer("is_active").default(1), // boolean as integer
-  isFeatured: integer("is_featured").default(0), // boolean as integer
-  tags: text("tags"), // JSON as text
-  createdAt: integer("created_at"), // timestamp as integer
-  updatedAt: integer("updated_at"), // timestamp as integer
+  isActive: boolean("is_active").default(true),
+  isFeatured: boolean("is_featured").default(false),
+  tags: jsonb("tags"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Reviews table
-export const reviews = sqliteTable("reviews", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
   productId: integer("product_id").references(() => products.id),
-  userId: text("user_id").references(() => users.id),
+  userId: varchar("user_id").references(() => users.id),
   rating: integer("rating").notNull(),
-  title: text("title"),
+  title: varchar("title", { length: 200 }),
   comment: text("comment"),
-  isVerified: integer("is_verified").default(0), // boolean as integer
-  createdAt: integer("created_at"), // timestamp as integer
+  isVerified: boolean("is_verified").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 // Orders table
-export const orders = sqliteTable("orders", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id").references(() => users.id),
-  status: text("status").default("pending"),
-  total: real("total").notNull(),
-  shippingAddress: text("shipping_address"), // JSON as text
-  createdAt: integer("created_at"), // timestamp as integer
-  updatedAt: integer("updated_at"), // timestamp as integer
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").references(() => users.id),
+  status: varchar("status", { length: 50 }).default("pending"),
+  total: decimal("total", { precision: 10, scale: 2 }).notNull(),
+  shippingAddress: jsonb("shipping_address"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Order items table
-export const orderItems = sqliteTable("order_items", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const orderItems = pgTable("order_items", {
+  id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id),
   productId: integer("product_id").references(() => products.id),
   quantity: integer("quantity").notNull(),
-  price: real("price").notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
 });
 
 // Cart items table
-export const cartItems = sqliteTable("cart_items", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id").references(() => users.id),
+export const cartItems = pgTable("cart_items", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").references(() => users.id),
   productId: integer("product_id").references(() => products.id),
   quantity: integer("quantity").notNull(),
-  createdAt: integer("created_at"), // timestamp as integer
-  updatedAt: integer("updated_at"), // timestamp as integer
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Wishlist table
-export const wishlist = sqliteTable("wishlist", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: text("user_id").references(() => users.id),
+export const wishlist = pgTable("wishlist", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").references(() => users.id),
   productId: integer("product_id").references(() => products.id),
-  createdAt: integer("created_at"), // timestamp as integer
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 // Blog posts table
-export const blogPosts = sqliteTable("blog_posts", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  slug: text("slug").notNull().unique(),
+export const blogPosts = pgTable("blog_posts", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  slug: varchar("slug", { length: 200 }).notNull().unique(),
   content: text("content").notNull(),
   excerpt: text("excerpt"),
-  imageUrl: text("image_url"),
-  authorId: text("author_id").references(() => users.id),
-  isPublished: integer("is_published").default(0), // boolean as integer
-  tags: text("tags"), // JSON as text
-  createdAt: integer("created_at"), // timestamp as integer
-  updatedAt: integer("updated_at"), // timestamp as integer
+  imageUrl: varchar("image_url"),
+  authorId: varchar("author_id").references(() => users.id),
+  isPublished: boolean("is_published").default(false),
+  tags: jsonb("tags"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Relations
@@ -205,4 +211,51 @@ export const blogPostsRelations = relations(blogPosts, ({ one }) => ({
     fields: [blogPosts.authorId],
     references: [users.id],
   }),
-})); 
+}));
+
+// Zod schemas
+export const insertUserSchema = createInsertSchema(users).omit({
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCategorySchema = createInsertSchema(categories).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertProductSchema = createInsertSchema(products).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertReviewSchema = createInsertSchema(reviews).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertOrderSchema = createInsertSchema(orders).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCartItemSchema = createInsertSchema(cartItems).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertWishlistSchema = createInsertSchema(wishlist).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Note: Type definitions removed for JavaScript compatibility

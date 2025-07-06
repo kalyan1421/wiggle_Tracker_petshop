@@ -32,11 +32,11 @@ export default function Cart() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  const handleUpdateQuantity = async (id: number, quantity: number) => {
+  const handleUpdateQuantity = async (id, quantity) => {
     try {
       await updateQuantity(id, quantity);
     } catch (error) {
-      if (isUnauthorizedError(error as Error)) {
+      if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
           description: "You are logged out. Logging in again...",
@@ -63,7 +63,7 @@ export default function Cart() {
         description: "Item removed from cart",
       });
     } catch (error) {
-      if (isUnauthorizedError(error as Error)) {
+      if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
           description: "You are logged out. Logging in again...",
@@ -90,7 +90,7 @@ export default function Cart() {
         description: "All items removed from cart",
       });
     } catch (error) {
-      if (isUnauthorizedError(error as Error)) {
+      if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
           description: "You are logged out. Logging in again...",

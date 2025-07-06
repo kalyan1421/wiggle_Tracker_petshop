@@ -48,7 +48,7 @@ export default function ProductDetail() {
     }
 
     try {
-      await addToCart(parseInt(id!), quantity);
+      await addToCart(parseInt(id), quantity);
       toast({
         title: "Added to cart",
         description: `${quantity} item(s) added to your cart`,
@@ -320,7 +320,7 @@ export default function ProductDetail() {
                     </div>
                   ) : reviews && reviews.length > 0 ? (
                     <div className="space-y-6">
-                      {reviews.map((review: Review) => (
+                      {reviews.map((review) => (
                         <div key={review.id} className="border-b border-gray-200 pb-6 last:border-b-0">
                           <div className="flex items-center gap-2 mb-2">
                             <div className="flex">

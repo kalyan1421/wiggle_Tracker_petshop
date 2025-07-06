@@ -21,6 +21,13 @@ export default defineConfig({
         ]
       : []),
   ],
+  esbuild: {
+    loader: {
+      '.js': 'jsx',
+    },
+    include: /src\/.*\.[jt]sx?$/,
+    exclude: []
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client", "src"),

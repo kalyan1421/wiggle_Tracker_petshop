@@ -33,7 +33,7 @@ export default function Products() {
   const products = productsData?.products || [];
   const categories = categoriesData || [];
 
-  const handleFilterChange = (key: string, value: string) => {
+  const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 

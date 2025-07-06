@@ -216,7 +216,7 @@ export default function Profile() {
                       </div>
                     ) : orders && orders.length > 0 ? (
                       <div className="space-y-4">
-                        {orders.map((order: any) => (
+                        {orders.map((order) => (
                           <div key={order.id} className="border border-gray-200 rounded-lg p-4">
                             <div className="flex justify-between items-start mb-2">
                               <div>

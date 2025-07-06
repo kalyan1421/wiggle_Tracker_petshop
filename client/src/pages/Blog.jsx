@@ -167,7 +167,7 @@ export default function Blog() {
             <article>
               <header className="mb-8">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {displayPost.tags?.map((tag: string, index: number) => (
+                  {displayPost.tags?.map((tag, index) => (
                     <Badge key={index} variant="secondary">
                       {tag}
                     </Badge>
@@ -302,7 +302,7 @@ export default function Blog() {
                   />
                   <div className="p-8 flex flex-col justify-center">
                     <div className="flex gap-2 mb-4">
-                      {displayPosts[0].tags?.map((tag: string, index: number) => (
+                      {displayPosts[0].tags?.map((tag, index) => (
                         <Badge key={index} variant="secondary">
                           {tag}
                         </Badge>

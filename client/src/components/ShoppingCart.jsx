@@ -6,18 +6,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-interface ShoppingCartProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
+export default function ShoppingCart({ isOpen, onClose }) {
   const { items, updateQuantity, removeFromCart, clearCart } = useCart();
   const { toast } = useToast();
 
   const total = items.reduce((sum, item) => sum + (item.quantity * 32.99), 0); // Mock price calculation
 
-  const handleUpdateQuantity = async (id: number, quantity: number) => {
+  const handleUpdateQuantity = async (id, quantity) => {
     try {
       await updateQuantity(id, quantity);
     } catch (error) {
@@ -29,7 +24,7 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
     }
   };
 
-  const handleRemoveItem = async (id: number) => {
+  const handleRemoveItem = async (id) => {
     try {
       await removeFromCart(id);
       toast({

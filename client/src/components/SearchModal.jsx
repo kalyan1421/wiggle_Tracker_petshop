@@ -5,16 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { X, Search } from 'lucide-react';
 import { useLocation } from 'wouter';
 
-interface SearchModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
+export default function SearchModal({ isOpen, onClose }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [, setLocation] = useLocation();
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       setLocation(`/products?search=${encodeURIComponent(searchQuery)}`);
@@ -22,7 +17,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     }
   };
 
-  const handlePopularSearch = (term: string) => {
+  const handlePopularSearch = (term) => {
     setLocation(`/products?search=${encodeURIComponent(term)}`);
     onClose();
   };
