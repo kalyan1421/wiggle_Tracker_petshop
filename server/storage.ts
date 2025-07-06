@@ -124,26 +124,23 @@ export class DatabaseStorage implements IStorage {
     limit?: number;
     offset?: number;
   } = {}): Promise<{ products: Product[]; total: number }> {
-    let query = db.select().from(products).where(eq(products.isActive, true));
-    let countQuery = db.select({ count: count() }).from(products).where(eq(products.isActive, true));
-
+    // Build where conditions
+    const conditions = [eq(products.isActive, true)];
+    
     if (options.categoryId) {
-      query = query.where(eq(products.categoryId, options.categoryId));
-      countQuery = countQuery.where(eq(products.categoryId, options.categoryId));
+      conditions.push(eq(products.categoryId, options.categoryId));
     }
 
     if (options.search) {
-      const searchCondition = ilike(products.name, `%${options.search}%`);
-      query = query.where(searchCondition);
-      countQuery = countQuery.where(searchCondition);
+      conditions.push(ilike(products.name, `%${options.search}%`));
     }
 
     if (options.featured) {
-      query = query.where(eq(products.isFeatured, true));
-      countQuery = countQuery.where(eq(products.isFeatured, true));
+      conditions.push(eq(products.isFeatured, true));
     }
 
-    query = query.orderBy(desc(products.createdAt));
+    // Build main query
+    let query = db.select().from(products).where(and(...conditions)).orderBy(desc(products.createdAt));
 
     if (options.limit) {
       query = query.limit(options.limit);
@@ -153,9 +150,12 @@ export class DatabaseStorage implements IStorage {
       query = query.offset(options.offset);
     }
 
+    // Build count query
+    const countQuery = db.select({ count: count() }).from(products).where(and(...conditions));
+
     const [productResults, countResult] = await Promise.all([
-      query.execute(),
-      countQuery.execute(),
+      query,
+      countQuery,
     ]);
 
     return {
